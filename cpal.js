@@ -89,7 +89,9 @@ if (argv.s) {
 
 function print_name (name) {
     return function () {
-        console.log('\n' + name + '\n');
+        if (images.length > 1) {
+            console.log('\n' + name + '\n');
+        }
     };
 }
 
