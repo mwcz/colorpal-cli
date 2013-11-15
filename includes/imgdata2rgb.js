@@ -1,5 +1,7 @@
+/*globals define*/
+
 define( function () {
-    return function( _image_data ) {
+    return function( image_data ) {
 
         "use strict";
 
@@ -17,12 +19,12 @@ define( function () {
             rgb_color,
             i;
 
-        for( i = _image_data.data.length - 1; i > 1; i -= 4 ) {
+        for( i = image_data.length - 1; i > 1; i -= 4 ) {
 
             rgb_color = [
-                _image_data.data[ i - 3 ],
-                _image_data.data[ i - 2 ],
-                _image_data.data[ i - 1 ]
+                image_data[ i - 3 ],
+                image_data[ i - 2 ],
+                image_data[ i - 1 ]
             ] ;
 
             rgb_array.push( rgb_color );

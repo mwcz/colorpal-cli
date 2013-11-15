@@ -54,6 +54,8 @@ var argv = require('optimist')
         describe: 'Specify the output format.  Options are ' + formats_string
     })
 
+    .demand(1) // at least 1 image must be specified
+
     .check(function (args) {
         var d_num = args.d && typeof args.d === "number",
             s_num = args.s && typeof args.s === "number";
@@ -70,9 +72,11 @@ var palette_types = {
     dynamic: 'get_dynamic_size_palette'
 };
 
-var png  = new PNG({ filterType: -1 }),
-    src  = fs.createReadStream(process.argv[2]),
+var png     = new PNG({ filterType: -1 }),
+    images  = argv._,
+    src,
     num,
+    i,
     type;
 
 if (argv.s) {
@@ -83,18 +87,28 @@ if (argv.s) {
     num  = argv.d || 0.4; // default dynamic scale 0.4
 }
 
-src
-    .pipe(new PNG({
-        filterType: 4
-    }))
-    .on('parsed', function() {
-        var data = rgb(this),
-            i,
-            palette,
-            output;
-        mcut.init(data);
-        palette = mcut[type](num);
-        output = format(palette);
-        console.log(output);
-    });
+function print_name (name) {
+    return function () {
+        console.log('\n' + name + '\n');
+    };
+}
 
+function get_colors (img) {
+    var data = rgb(img),
+        palette,
+        output;
+    mcut.init(data);
+    palette = mcut[type](num);
+    output = format(palette);
+    console.log(output);
+}
+
+for (i = 0; i < images.length; i += 1) {
+    src = fs.createReadStream(images[i]);
+    src
+        .pipe(new PNG({
+            filterType: 4
+        }))
+        .on('parsed', print_name(images[i]))
+        .on('parsed', get_colors);
+}
