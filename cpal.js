@@ -18,6 +18,12 @@ requirejs.config({
 var im      = require('imagemagick');
 var fs      = require('fs');
 var PNG     = require('pngjs').PNG;
+var canvas_width  = 128,
+    canvas_height = 128;
+var Canvas = require('canvas')
+  , canvas = new Canvas(canvas_height, canvas_width)
+  , ctx = canvas.getContext('2d')
+  , Image = Canvas.Image;
 
 var rgb     = requirejs('imgdata2rgb');
 var mcut    = requirejs('mcut')();
@@ -87,14 +93,6 @@ if (argv.s) {
     num  = argv.d || 0.4; // default dynamic scale 0.4
 }
 
-function print_name (name) {
-    return function () {
-        if (images.length > 1) {
-            console.log('\n' + name + '\n');
-        }
-    };
-}
-
 function get_colors (img) {
     var data = rgb(img),
         palette,
@@ -106,11 +104,22 @@ function get_colors (img) {
 }
 
 for (i = 0; i < images.length; i += 1) {
-    src = fs.createReadStream(images[i]);
-    src
-        .pipe(new PNG({
-            filterType: 4
-        }))
-        .on('parsed', print_name(images[i]))
-        .on('parsed', get_colors);
+    (function (image_name) {
+        fs.readFile(images[i], function(err, image_file){
+            if (err) { 
+                throw err;
+            }
+
+            if (images.length > 1) {
+                console.log('\n' + image_name + '\n');
+            }
+
+            var img = new Image();
+            var pixels;
+            img.src = image_file;
+            ctx.drawImage(img, 0, 0, canvas_height, canvas_width);
+            pixels = ctx.getImageData(0, 0, canvas_height, canvas_width);
+            get_colors(pixels.data);
+        });
+    }(images[i]));
 }
