@@ -39,7 +39,7 @@ formats_string = formats_string.join(', ');
 
 var argv = require('optimist')
 
-    .usage('Generate a color palette from a PNG image! :)\nUSAGE: $0')
+    .usage('Generate a color palette from an image! :)\nUSAGE: $0')
 
     // -f or --fixed
     .options('s', {
