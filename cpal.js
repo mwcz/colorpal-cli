@@ -30,7 +30,6 @@ var mcut    = requirejs('mcut')();
 var formats = requirejs('formats');
 var format;
 var formats_string = Object.keys(formats);
-formats_string.splice(-1, 0, 'and');
 formats_string = formats_string.join(', ');
 
 /****************************************
@@ -57,7 +56,7 @@ var argv = require('optimist')
     .options('f', {
         default: "json",
         alias: 'format',
-        describe: 'Specify the output format.  Options are ' + formats_string
+        describe: 'Specify the output format.  Available formats are: ' + formats_string
     })
 
     .demand(1) // at least 1 image must be specified
