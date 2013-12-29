@@ -15,19 +15,19 @@ requirejs.config({
  *  Imports  *
  *************/
 
-var im      = require('imagemagick');
 var fs      = require('fs');
 var PNG     = require('pngjs').PNG;
-var canvas_width  = 128,
-    canvas_height = 128;
-var Canvas = require('canvas')
-  , canvas = new Canvas(canvas_height, canvas_width)
-  , ctx = canvas.getContext('2d')
-  , Image = Canvas.Image;
-
+var Canvas  = require('canvas');
 var rgb     = requirejs('imgdata2rgb');
 var mcut    = requirejs('mcut')();
 var formats = requirejs('formats');
+
+var canvas_width  = 128;
+var canvas_height = 128;
+var canvas        = new Canvas(canvas_height, canvas_width);
+var ctx           = canvas.getContext('2d');
+var Image         = Canvas.Image;
+
 var format;
 var formats_string = Object.keys(formats);
 formats_string = formats_string.join(', ');
