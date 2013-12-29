@@ -16,7 +16,6 @@ requirejs.config({
  *************/
 
 var fs      = require('fs');
-var PNG     = require('pngjs').PNG;
 var Canvas  = require('canvas');
 var rgb     = requirejs('imgdata2rgb');
 var mcut    = requirejs('mcut')();
@@ -77,12 +76,11 @@ var palette_types = {
     dynamic: 'get_dynamic_size_palette'
 };
 
-var png     = new PNG({ filterType: -1 }),
-    images  = argv._,
-    src,
-    num,
-    i,
-    type;
+var images  = argv._;
+var src;
+var num;
+var i;
+var type;
 
 if (argv.s) {
     type = palette_types.fixed;
