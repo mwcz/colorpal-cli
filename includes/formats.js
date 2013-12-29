@@ -43,21 +43,13 @@ define(function () {
         return rgb_array.map(hex_line).join('\n');
     }
 
-    function clayto(rgb_array) {
-        function clayto_line(rgb_arg, num) {
-            return 'Palette' + num + ': ' + rgb_line(rgb_arg, num);
-        }
-        return rgb_array.map(clayto_line).join('\n');
-    }
-
     return {
         scss   : scss,
         sass   : sass,
         json   : json,
         less   : less,
         rgb    : rgb,
-        hex    : hex,
-        clayto : clayto
+        hex    : hex
     };
 });
 
